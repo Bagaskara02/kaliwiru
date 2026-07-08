@@ -155,7 +155,7 @@ export const siteConfig = {
     sejarah: 'Padukuhan Giling merupakan salah satu wilayah yang masyarakatnya terus menjaga identitas budaya dan tradisi seperti Baritan Suran dan kesenian Oglek. Wilayah ini memiliki potensi pertanian dan UMKM yang berkembang, serta berkomitmen untuk melestarikan nilai-nilai lokal.',
     visi: 'Mewujudkan Desa Tuksono menjadi Desa Mandiri melalui bidang Pertanian dan Industri Kecil, serta menjadi Desa Budaya yang lestari.',
     misi: [
-      'Meningkatkan perekonomian masyarakat melalui pemberdayaan UMKM dan kerajinan lokal seperti kerajinan serat agel.',
+      'Meningkatkan perekonomian masyarakat melalui pemberdayaan UMKM dan kerajinan lokal.',
       'Memajukan sektor pertanian sebagai penopang utama ketahanan pangan.',
       'Melestarikan nilai-nilai tradisi dan seni budaya lokal, seperti pelestarian adat Baritan Suran Padukuhan Giling dan kesenian Oglek.'
     ],
