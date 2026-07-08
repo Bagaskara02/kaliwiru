@@ -4,7 +4,80 @@ import { API_CONFIG } from '../data/apiConfig';
 
 const SiteDataContext = createContext(null);
 
-/* ── Mapper: SheetDB row → format UMKM app ── */
+/* ═══════════════════════════════════════════════════════════
+   Google Sheets Response Parser
+   ═══════════════════════════════════════════════════════════
+   Google Sheets gviz/tq mengembalikan format JSONP:
+   /*O_o*​/google.visualization.Query.setResponse({...});
+
+   Fungsi ini meng-extract JSON-nya dan mengubahnya menjadi
+   array of objects, sama seperti format SheetDB sebelumnya.
+   ═══════════════════════════════════════════════════════════ */
+function parseGoogleSheetsResponse(text) {
+  // Extract JSON dari wrapper JSONP
+  const match = text.match(
+    /google\.visualization\.Query\.setResponse\(({.*})\)/s
+  );
+  if (!match) {
+    throw new Error('Format response Google Sheets tidak valid');
+  }
+
+  const json = JSON.parse(match[1]);
+
+  // Ambil nama kolom dari header
+  const cols = json.table.cols.map((col) => col.label || '');
+
+  // Konversi setiap baris menjadi object { NamaKolom: nilai }
+  return json.table.rows
+    .map((row) => {
+      const obj = {};
+      row.c.forEach((cell, i) => {
+        if (cols[i]) {
+          obj[cols[i]] = cell ? (cell.v != null ? cell.v : '') : '';
+        }
+      });
+      return obj;
+    })
+    .filter((row) => {
+      // Filter baris kosong (semua value empty string)
+      return Object.values(row).some((v) => v !== '');
+    });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   localStorage Cache — Mengurangi fetch & mempercepat load
+   ═══════════════════════════════════════════════════════════ */
+const CACHE_PREFIX = 'padukuhan_data_';
+const CACHE_DURATION = 5 * 60 * 1000; // 5 menit
+
+function getCached(key) {
+  try {
+    const raw = localStorage.getItem(CACHE_PREFIX + key);
+    if (!raw) return null;
+
+    const { data, ts } = JSON.parse(raw);
+    if (Date.now() - ts > CACHE_DURATION) {
+      localStorage.removeItem(CACHE_PREFIX + key);
+      return null; // Cache expired
+    }
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function setCache(key, data) {
+  try {
+    localStorage.setItem(
+      CACHE_PREFIX + key,
+      JSON.stringify({ data, ts: Date.now() })
+    );
+  } catch {
+    // localStorage penuh atau tidak tersedia — abaikan
+  }
+}
+
+/* ── Mapper: row → format UMKM app ── */
 function mapUmkmRow(row, index) {
   return {
     id: index + 1,
@@ -18,7 +91,7 @@ function mapUmkmRow(row, index) {
   };
 }
 
-/* ── Mapper: SheetDB row → format statistik app ── */
+/* ── Mapper: row → format statistik app ── */
 function mapStatsRow(row) {
   return {
     id: String(row['ID'] || row['id'] || row['Label'] || '').toLowerCase(),
@@ -27,6 +100,29 @@ function mapStatsRow(row) {
     description: row['Deskripsi'] || row['deskripsi'] || '',
     icon: row['Icon'] || row['icon'] || 'home',
   };
+}
+
+/**
+ * Fetch data dari Google Sheets langsung.
+ * Cek cache dulu → kalau ada & belum expired, pakai cache.
+ * Kalau tidak ada / expired → fetch dari Google Sheets → simpan cache.
+ */
+async function fetchGoogleSheet(url, cacheKey) {
+  // 1. Cek cache
+  const cached = getCached(cacheKey);
+  if (cached) return cached;
+
+  // 2. Fetch dari Google Sheets
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Google Sheets: HTTP ${res.status}`);
+
+  const text = await res.text();
+  const rows = parseGoogleSheetsResponse(text);
+
+  // 3. Simpan ke cache
+  setCache(cacheKey, rows);
+
+  return rows;
 }
 
 /**
@@ -55,21 +151,17 @@ export function SiteDataProvider({ children }) {
       try {
         const updates = {};
 
-        // Fetch UMKM
+        // Fetch UMKM dari Google Sheets
         if (API_CONFIG.umkm) {
-          const res = await fetch(API_CONFIG.umkm);
-          if (!res.ok) throw new Error(`UMKM API: HTTP ${res.status}`);
-          const rows = await res.json();
+          const rows = await fetchGoogleSheet(API_CONFIG.umkm, 'umkm');
           if (Array.isArray(rows) && rows.length > 0) {
             updates.umkm = rows.map(mapUmkmRow);
           }
         }
 
-        // Fetch Statistik
+        // Fetch Statistik dari Google Sheets
         if (API_CONFIG.stats) {
-          const res = await fetch(API_CONFIG.stats);
-          if (!res.ok) throw new Error(`Stats API: HTTP ${res.status}`);
-          const rows = await res.json();
+          const rows = await fetchGoogleSheet(API_CONFIG.stats, 'stats');
           if (Array.isArray(rows) && rows.length > 0) {
             updates.stats = rows.map(mapStatsRow);
           }
@@ -79,7 +171,7 @@ export function SiteDataProvider({ children }) {
           setData((prev) => ({ ...prev, ...updates }));
         }
       } catch (err) {
-        console.error('⚠️ Gagal memuat data dari API:', err);
+        console.error('⚠️ Gagal memuat data dari Google Sheets:', err);
         if (!cancelled) setError(err.message);
         // Data statis dari siteData.js tetap tampil sebagai fallback
       } finally {

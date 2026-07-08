@@ -1,36 +1,59 @@
 /**
  * ═══════════════════════════════════════════════════════════════
- *  KONFIGURASI API — Google Sheets via SheetDB
+ *  KONFIGURASI API — Google Sheets LANGSUNG (Tanpa SheetDB)
  * ═══════════════════════════════════════════════════════════════
  *
- *  CARA SETUP (Cukup Pakai 1 Link Spreadsheet):
+ *  CARA SETUP:
  *
- *  Spreadsheet Anda memiliki 2 tab (sheet): "UMKM" dan "Statistik".
- *  Hubungkan link spreadsheet Anda ke SheetDB.io untuk mendapatkan 1 API URL.
- *  Misalnya API URL Anda dari SheetDB adalah:
- *  https://sheetdb.io/api/v1/abc123xyz
+ *  1. Buka Google Spreadsheet Anda di browser.
+ *  2. Klik  File → Share → Publish to web → Klik "Publish".
+ *  3. Copy Spreadsheet ID dari URL browser Anda:
+ *     https://docs.google.com/spreadsheets/d/[INI_SPREADSHEET_ID]/edit
+ *  4. Paste ID tersebut di variabel SPREADSHEET_ID di bawah.
  *
- *  Cara memisahkan datanya di bawah cukup tambahkan parameter:
- *  - Tab UMKM      -> tambahkan "?sheet=UMKM" di ujung URL
- *  - Tab Statistik -> tambahkan "?sheet=Statistik" di ujung URL
- *
- *  Contoh pengisian di variabel API_CONFIG di bawah:
- *  umkm: 'https://sheetdb.io/api/v1/abc123xyz?sheet=UMKM',
- *  stats: 'https://sheetdb.io/api/v1/abc123xyz?sheet=Statistik'
+ *  CATATAN PENTING:
+ *  - Spreadsheet ID SAMA untuk semua 12 dusun.
+ *  - Yang BEDA hanya nama sheet (tab) per dusun.
+ *  - Gratis tanpa batas request! (tidak pakai SheetDB lagi)
  *
  * ═══════════════════════════════════════════════════════════════
  */
 
+// ┌───────────────────────────────────────────────────────────┐
+// │  GANTI NILAI DI BAWAH DENGAN SPREADSHEET ID ANDA         │
+// │  Contoh: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms'  │
+// └───────────────────────────────────────────────────────────┘
+const SPREADSHEET_ID = '1E7SBfDyWBZ6RXDo7rESduNuWayhB2NFKHGSoEN8qkSM';
+
+// ┌───────────────────────────────────────────────────────────┐
+// │  NAMA SHEET (TAB) DI SPREADSHEET UNTUK DUSUN INI         │
+// │  Sesuaikan dengan nama tab yang ada di spreadsheet Anda.  │
+// │  Untuk dusun lain, cukup ganti nama sheet-nya saja.       │
+// └───────────────────────────────────────────────────────────┘
+const SHEET_UMKM = 'UMKM Giling';
+const SHEET_STATS = 'Statistik Giling';
+
+/**
+ * Membangun URL Google Sheets gviz/tq untuk mengambil data
+ * langsung dari Google tanpa perantara SheetDB.
+ */
+function buildGoogleSheetsUrl(sheetName) {
+  return `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+}
+
+// Cek apakah Spreadsheet ID sudah dikonfigurasi
+const isConfigured = SPREADSHEET_ID !== '1E7SBfDyWBZ6RXDo7rESduNuWayhB2NFKHGSoEN8qkSM';
+
 export const API_CONFIG = {
   /**
-   * URL API SheetDB untuk data UMKM (Tab: UMKM).
-   * Ganti null dengan URL Anda + '?sheet=UMKM' jika ingin menggunakan live data.
+   * URL untuk data UMKM (Tab: UMKM Giling).
+   * Otomatis null jika Spreadsheet ID belum di-set → pakai data statis.
    */
-  umkm: 'https://sheetdb.io/api/v1/l125bb9d7nfqh?sheet=UMKM Giling',
+  umkm: isConfigured ? buildGoogleSheetsUrl(SHEET_UMKM) : null,
 
   /**
-   * URL API SheetDB untuk data statistik demografi (Tab: Statistik).
-   * Ganti null dengan URL Anda + '?sheet=Statistik' jika ingin menggunakan live data.
+   * URL untuk data statistik demografi (Tab: Statistik Giling).
+   * Otomatis null jika Spreadsheet ID belum di-set → pakai data statis.
    */
-  stats: 'https://sheetdb.io/api/v1/l125bb9d7nfqh?sheet=Statistik Giling',
+  stats: isConfigured ? buildGoogleSheetsUrl(SHEET_STATS) : null,
 };
