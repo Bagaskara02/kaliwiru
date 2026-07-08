@@ -157,7 +157,7 @@ export const siteConfig = {
     misi: [
       'Meningkatkan perekonomian masyarakat melalui pemberdayaan UMKM dan kerajinan lokal.',
       'Memajukan sektor pertanian sebagai penopang utama ketahanan pangan.',
-      'Melestarikan nilai-nilai tradisi dan seni budaya lokal, seperti pelestarian adat Baritan Suran Padukuhan Giling dan kesenian Oglek.'
+      'Melestarikan nilai-nilai tradisi dan seni budaya lokal, seperti pelestarian adat Baritan dan kesenian Oglek.'
     ],
     image: null, // Ganti dengan gambar profil padukuhan
   },
