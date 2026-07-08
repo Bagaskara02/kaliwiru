@@ -42,7 +42,7 @@ function buildGoogleSheetsUrl(sheetName) {
 }
 
 // Cek apakah Spreadsheet ID sudah dikonfigurasi
-const isConfigured = SPREADSHEET_ID !== '1E7SBfDyWBZ6RXDo7rESduNuWayhB2NFKHGSoEN8qkSM';
+const isConfigured = SPREADSHEET_ID !== 'PASTE_SPREADSHEET_ID_DISINI';
 
 export const API_CONFIG = {
   /**
