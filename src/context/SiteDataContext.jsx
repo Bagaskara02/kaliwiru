@@ -108,13 +108,45 @@ function setCache(key, data) {
   }
 }
 
+/**
+ * Mengubah URL Google Drive sharing menjadi URL gambar langsung.
+ *
+ * Input:  https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+ * Output: https://lh3.googleusercontent.com/d/FILE_ID
+ *
+ * Jika bukan URL Google Drive, dikembalikan apa adanya.
+ */
+function toDirectImageUrl(url) {
+  if (!url || typeof url !== 'string') return null;
+
+  // Pattern: drive.google.com/file/d/{FILE_ID}/...
+  const driveMatch = url.match(
+    /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/
+  );
+  if (driveMatch) {
+    return `https://lh3.googleusercontent.com/d/${driveMatch[1]}`;
+  }
+
+  // Pattern: drive.google.com/open?id={FILE_ID}
+  const openMatch = url.match(
+    /drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/
+  );
+  if (openMatch) {
+    return `https://lh3.googleusercontent.com/d/${openMatch[1]}`;
+  }
+
+  return url;
+}
+
 /* ── Mapper: row → format UMKM app ── */
 function mapUmkmRow(row, index) {
+  const rawImage = row['Foto'] || row['foto'] || null;
+
   return {
     id: index + 1,
     name: row['Nama'] || row['nama'] || '',
     description: row['Deskripsi'] || row['deskripsi'] || '',
-    image: row['Foto'] || row['foto'] || null,
+    image: toDirectImageUrl(rawImage),
     qris: String(row['QRIS'] || row['qris'] || '').toLowerCase() === 'ya',
     whatsapp: String(row['WhatsApp'] || row['whatsapp'] || ''),
     category: row['Kategori'] || row['kategori'] || 'Lainnya',
