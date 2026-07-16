@@ -1,5 +1,4 @@
 import { useSiteData } from '../context/SiteDataContext';
-import tuguGilingImg from '../images/TuguGiling.jpg';
 
 export default function About() {
   const { about } = useSiteData();
@@ -26,7 +25,7 @@ export default function About() {
           <div className="lg:col-span-7 space-y-6">
             <div className="rounded-xl overflow-hidden shadow-sm border border-warm-200 aspect-[16/9]">
               <img
-                src={about.image || tuguGilingImg}
+                src={about.image || '/images/TuguGiling.jpg'}
                 alt={about.title}
                 className="w-full h-full object-cover object-[center_90%]"
               />

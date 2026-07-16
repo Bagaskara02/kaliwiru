@@ -1,5 +1,4 @@
 import { useSiteData } from '../context/SiteDataContext';
-import tuguGilingImg from '../images/TuguGiling.jpg';
 
 export default function Hero() {
   const { hero, padukuhan } = useSiteData();
@@ -11,9 +10,9 @@ export default function Hero() {
     >
       {/* Background image */}
       <img
-        src={tuguGilingImg}
+        src="/images/TuguGiling.jpg"
         alt=""
-        className="absolute inset-0 w-full h-full object-cover object-[center_80%]"
+        className="absolute inset-0 w-full h-full object-cover object-[center_70%]"
       />
 
       {/* Green gradient overlay — blends with the image */}
