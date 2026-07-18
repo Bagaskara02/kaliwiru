@@ -155,7 +155,7 @@ export default function MapSection() {
               Lokasi &amp; Wilayah
             </p>
             <h2 className="text-2xl md:text-[1.7rem] font-semibold text-leaf-900">
-              Peta Padukuhan Giling
+              Peta Padukuhan Kaliwiru
             </h2>
           </div>
 

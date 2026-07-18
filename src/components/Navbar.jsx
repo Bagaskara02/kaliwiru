@@ -36,13 +36,13 @@ export default function Navbar() {
             }`}
           >
             <img
-              src="/images/LOGOKKNGILING.png"
+              src="/images/iconKaliwiru.jpeg"
               alt="Logo"
-              className={`h-8 md:h-9 w-auto object-contain transition-all duration-300 ${
+              className={`h-8 md:h-9 w-auto object-contain rounded-full transition-all duration-300 ${
                 scrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-90 w-0 -mr-2.5'
               }`}
             />
-            Padukuhan Giling
+            Padukuhan Kaliwiru
           </a>
 
           {/* Desktop Navigation */}

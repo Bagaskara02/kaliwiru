@@ -1,5 +1,5 @@
 /**
- * Data konten website Padukuhan Giling.
+ * Data konten website Padukuhan Kaliwiru.
  *
  * Struktur ini dirancang agar mudah di-replace dengan fetch() dari API eksternal.
  * Cukup ganti isi variabel atau ubah menjadi async fetch tanpa mengubah komponen.
@@ -12,7 +12,7 @@
 export const siteConfig = {
   /* ─── Info Padukuhan ─── */
   padukuhan: {
-    name: 'Giling',
+    name: 'Kaliwiru',
     desa: 'Tuksono',
     kecamatan: 'Sentolo',
     kabupaten: 'Kulon Progo',
@@ -21,9 +21,9 @@ export const siteConfig = {
 
   /* ─── Hero Section ─── */
   hero: {
-    title: 'Selamat Datang di Padukuhan Giling',
+    title: 'Selamat Datang di Padukuhan Kaliwiru',
     subtitle:
-      'Portal informasi resmi Padukuhan Giling, Desa Tuksono, Kecamatan Sentolo, Kabupaten Kulon Progo, Daerah Istimewa Yogyakarta. Temukan potensi desa, produk UMKM unggulan, dan informasi layanan masyarakat.',
+      'Portal informasi resmi Padukuhan Kaliwiru, Desa Tuksono, Kecamatan Sentolo, Kabupaten Kulon Progo, Daerah Istimewa Yogyakarta. Temukan potensi desa, produk UMKM unggulan, dan informasi layanan masyarakat.',
     ctaText: 'Jelajahi Potensi',
     backgroundImage: null, // Ganti dengan path: '/images/hero.jpg'
   },
@@ -68,7 +68,7 @@ export const siteConfig = {
     },
     {
       id: 2,
-      name: 'Batik Tulis Giling',
+      name: 'Batik Tulis Kaliwiru',
       description:
         'Batik tulis tradisional dengan motif khas Kulon Progo, dibuat secara handmade oleh pengrajin lokal.',
       image: null,
@@ -98,7 +98,7 @@ export const siteConfig = {
     },
     {
       id: 5,
-      name: 'Kopi Robusta Giling',
+      name: 'Kopi Robusta Kaliwiru',
       description:
         'Kopi robusta pilihan dari kebun lokal, dipanggang sempurna untuk cita rasa premium.',
       image: null,
@@ -130,14 +130,14 @@ export const siteConfig = {
   /* ─── Kontak ─── */
   contact: {
     address:
-      'Padukuhan Giling, Desa Tuksono, Kec. Sentolo, Kab. Kulon Progo, Daerah Istimewa Yogyakarta',
+      'Padukuhan Kaliwiru, Desa Tuksono, Kec. Sentolo, Kab. Kulon Progo, Daerah Istimewa Yogyakarta',
   },
 
   /* ─── Peta ─── */
   map: {
     wilayah: {
       title: 'Peta Wilayah',
-      description: 'Peta lokasi dan batas wilayah Padukuhan Giling',
+      description: 'Peta lokasi dan batas wilayah Padukuhan Kaliwiru',
       embedUrl: null, // Ganti dengan Google Maps embed URL
       image: null, // Atau: '/images/peta-wilayah.jpg'
     },
@@ -151,14 +151,14 @@ export const siteConfig = {
   /* ─── Tentang Kami ─── */
   about: {
     title: 'Profil Padukuhan',
-    subtitle: 'Sejarah, Visi & Misi Padukuhan Giling',
-    sejarah: 'Padukuhan Giling merupakan salah satu wilayah yang masyarakatnya terus menjaga identitas budaya dan tradisi seperti Baritan Suran dan kesenian Oglek. Wilayah ini memiliki potensi pertanian dan UMKM yang berkembang, serta berkomitmen untuk melestarikan nilai-nilai lokal.',
+    subtitle: 'Sejarah, Visi & Misi Padukuhan Kaliwiru',
+    sejarah: 'Padukuhan Kaliwiru merupakan salah satu wilayah yang masyarakatnya terus menjaga identitas budaya dan tradisi seperti Baritan Suran dan kesenian Oglek. Wilayah ini memiliki potensi pertanian dan UMKM yang berkembang, serta berkomitmen untuk melestarikan nilai-nilai lokal.',
     visi: 'Mewujudkan Desa Tuksono menjadi Desa Mandiri melalui bidang Pertanian dan Industri Kecil, serta menjadi Desa Budaya yang lestari.',
     misi: [
       'Meningkatkan perekonomian masyarakat melalui pemberdayaan UMKM dan kerajinan lokal.',
       'Memajukan sektor pertanian sebagai penopang utama ketahanan pangan.',
       'Melestarikan nilai-nilai tradisi dan seni budaya lokal, seperti pelestarian adat Baritan dan kesenian Oglek.'
     ],
-    image: null, // Ganti dengan gambar profil padukuhan
+    image: '/images/iconKaliwiru.jpeg',
   },
 };

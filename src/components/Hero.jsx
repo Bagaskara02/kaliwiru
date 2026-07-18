@@ -10,17 +10,17 @@ export default function Hero() {
     >
       {/* Background image */}
       <img
-        src="/images/TuguGiling.jpg"
+        src="/images/iconKaliwiru.jpeg"
         alt=""
-        className="absolute inset-0 w-full h-full object-cover object-[center_80%]"
+        className="absolute inset-0 w-full h-full object-cover object-[center_60%] scale-110 blur-[3px]"
       />
 
-      {/* Green gradient overlay — blends with the image */}
+      {/* Pink gradient overlay — blends with the image */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(150deg, rgba(7,30,17,0.92) 0%, rgba(14,50,32,0.85) 35%, rgba(24,77,48,0.78) 65%, rgba(14,50,32,0.88) 100%)',
+            'linear-gradient(150deg, rgba(77,21,38,0.92) 0%, rgba(138,40,68,0.85) 35%, rgba(200,61,100,0.78) 65%, rgba(138,40,68,0.88) 100%)',
         }}
       />
 
@@ -29,7 +29,7 @@ export default function Hero() {
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 80%, rgba(24,77,48,0.3) 0%, transparent 70%)',
+            'radial-gradient(ellipse at 50% 80%, rgba(200,61,100,0.3) 0%, transparent 70%)',
         }}
       />
 

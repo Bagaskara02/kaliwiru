@@ -91,9 +91,9 @@ export default function Footer() {
               className="h-10 sm:h-12 object-contain"
             />
             <img
-              src="/images/LOGOKKNGILING.png"
-              alt="Logo KKN Giling"
-              className="h-10 sm:h-12 object-contain"
+              src="/images/iconKaliwiru.jpeg"
+              alt="Logo KKN Kaliwiru"
+              className="h-10 sm:h-12 object-contain rounded-full"
             />
             <img
               src="/images/LogoKulonProgo.jpg"

@@ -25,9 +25,9 @@ export default function About() {
           <div className="lg:col-span-7 space-y-6">
             <div className="rounded-xl overflow-hidden shadow-sm border border-warm-200 aspect-[16/9]">
               <img
-                src={about.image || '/images/TuguGiling.jpg'}
+                src={about.image || '/images/iconKaliwiru.jpeg'}
                 alt={about.title}
-                className="w-full h-full object-cover object-[center_90%]"
+                className="w-full h-full object-cover object-[center_70%]"
               />
             </div>
 
