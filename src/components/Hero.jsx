@@ -12,7 +12,7 @@ export default function Hero() {
       <img
         src="/images/iconKaliwiru.jpeg"
         alt=""
-        className="absolute inset-0 w-full h-full object-cover object-[center_60%] scale-110 blur-[3px]"
+        className="absolute inset-0 w-full h-full object-cover object-[center_80%] scale-100"
       />
 
       {/* Pink gradient overlay — blends with the image */}
