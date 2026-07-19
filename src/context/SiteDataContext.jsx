@@ -79,7 +79,7 @@ function parseGoogleSheetsResponse(text) {
    localStorage Cache — Mengurangi fetch & mempercepat load
    ═══════════════════════════════════════════════════════════ */
 const CACHE_PREFIX = 'padukuhan_data_';
-const CACHE_DURATION = 5 * 60 * 1000; // 5 menit
+const CACHE_DURATION = 0; // 0 menit (langsung update saat di-refresh)
 
 function getCached(key) {
   try {

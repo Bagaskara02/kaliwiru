@@ -152,12 +152,12 @@ export const siteConfig = {
   about: {
     title: 'Profil Padukuhan',
     subtitle: 'Sejarah, Visi & Misi Padukuhan Kaliwiru',
-    sejarah: 'Padukuhan Kaliwiru merupakan salah satu wilayah yang masyarakatnya terus menjaga identitas budaya dan tradisi seperti Baritan Suran dan kesenian Oglek. Wilayah ini memiliki potensi pertanian dan UMKM yang berkembang, serta berkomitmen untuk melestarikan nilai-nilai lokal.',
-    visi: 'Mewujudkan Desa Tuksono menjadi Desa Mandiri melalui bidang Pertanian dan Industri Kecil, serta menjadi Desa Budaya yang lestari.',
+    sejarah: 'Padukuhan Kaliwiru merupakan salah satu padukuhan di Desa Tuksono, Kecamatan Sentolo, Kabupaten Kulon Progo yang dikenal sebagai sentra industri tahu. Sebagian besar masyarakat menggantungkan mata pencaharian pada sektor pengolahan tahu, sehingga menjadikan Kaliwiru sebagai salah satu penghasil tahu terbesar di wilayah tersebut. Selain itu, padukuhan ini juga memiliki berbagai UMKM yang terus berkembang serta didukung semangat gotong royong masyarakat dalam menjaga potensi ekonomi lokal.',
+    visi: 'Menjadi Padukuhan yang mandiri melalui pengembangan industri tahu, UMKM, dan pelestarian budaya lokal.',
     misi: [
-      'Meningkatkan perekonomian masyarakat melalui pemberdayaan UMKM dan kerajinan lokal.',
-      'Memajukan sektor pertanian sebagai penopang utama ketahanan pangan.',
-      'Melestarikan nilai-nilai tradisi dan seni budaya lokal, seperti pelestarian adat Baritan dan kesenian Oglek.'
+      'Mengembangkan potensi industri tahu sebagai ikon ekonomi Padukuhan Kaliwiru.',
+      'Mendukung pertumbuhan UMKM melalui peningkatan kualitas produk dan pemasaran.',
+      'Melestarikan budaya, nilai gotong royong, dan kearifan lokal sebagai identitas masyarakat.'
     ],
     image: '/images/iconKaliwiru.jpeg',
   },
