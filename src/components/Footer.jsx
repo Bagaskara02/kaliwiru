@@ -90,11 +90,17 @@ export default function Footer() {
               alt="Logo UPN Veteran Yogyakarta"
               className="h-10 sm:h-12 object-contain"
             />
+            <a
+              href="https://www.instagram.com/lifeat.kawinawa?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+              target="_blank"
+              rel="noopener noreferrer"
+              >
             <img
-              src="/images/iconKaliwiru.jpeg"
+              src="/images/LogoKawinawa.PNG"
               alt="Logo KKN Kaliwiru"
-              className="h-10 sm:h-12 object-contain rounded-full"
+              className="h-20 sm:h-20 object-contain rounded-full"
             />
+            </a>
             <img
               src="/images/LogoKulonProgo.jpg"
               alt="Logo Kabupaten Kulon Progo"

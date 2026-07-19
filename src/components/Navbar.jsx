@@ -35,13 +35,19 @@ export default function Navbar() {
               scrolled ? 'text-leaf-800' : 'text-white'
             }`}
           >
-            <img
-              src="/images/iconKaliwiru.jpeg"
+            <a
+              href="https://www.instagram.com/lifeat.kawinawa?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+              src="/images/LogoKawinawa.PNG"
               alt="Logo"
-              className={`h-8 md:h-9 w-auto object-contain rounded-full transition-all duration-300 ${
+              className={`h-15 md:h-16 w-auto object-contain rounded-full transition-all duration-300 ${
                 scrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-90 w-0 -mr-2.5'
               }`}
             />
+            </a>
             Padukuhan Kaliwiru
           </a>
 

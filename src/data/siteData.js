@@ -144,7 +144,7 @@ export const siteConfig = {
     administrasi: {
       title: 'Peta Administrasi',
       description: 'Peta administrasi wilayah',
-      image: '/images/peta-administrasi.webp',
+      image: '/images/peta-administrasi.jpeg',
     },
   },
 

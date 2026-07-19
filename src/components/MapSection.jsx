@@ -159,9 +159,8 @@ export default function MapSection() {
             </h2>
           </div>
 
-          {/* Two-column map grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <MapCard data={map.wilayah} onOpenImage={setModalData} />
+          {/* Peta Administrasi */}
+          <div className="max-w-4xl mx-auto">
             <MapCard data={map.administrasi} onOpenImage={setModalData} />
           </div>
         </div>
