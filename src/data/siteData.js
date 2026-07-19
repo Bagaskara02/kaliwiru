@@ -161,4 +161,7 @@ export const siteConfig = {
     ],
     image: '/images/iconKaliwiru.jpeg',
   },
+
+  /* ─── Fasilitas ─── */
+  fasilitas: [],
 };

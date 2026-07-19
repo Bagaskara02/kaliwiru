@@ -32,6 +32,7 @@ const SPREADSHEET_ID = '1E7SBfDyWBZ6RXDo7rESduNuWayhB2NFKHGSoEN8qkSM';
 // └───────────────────────────────────────────────────────────┘
 const SHEET_UMKM = 'UMKM Kaliwiru';
 const SHEET_STATS = 'Statistik Kaliwiru';
+const SHEET_FASILITAS = 'Prasarana Kaliwiru';
 
 /**
  * Membangun URL Google Sheets gviz/tq untuk mengambil data
@@ -56,4 +57,9 @@ export const API_CONFIG = {
    * Otomatis null jika Spreadsheet ID belum di-set → pakai data statis.
    */
   stats: isConfigured ? buildGoogleSheetsUrl(SHEET_STATS) : null,
+
+  /**
+   * URL untuk data fasilitas umum (Tab: Prasarana Kaliwiru).
+   */
+  fasilitas: isConfigured ? buildGoogleSheetsUrl(SHEET_FASILITAS) : null,
 };

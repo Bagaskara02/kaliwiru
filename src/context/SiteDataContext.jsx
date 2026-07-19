@@ -165,6 +165,20 @@ function mapStatsRow(row) {
   };
 }
 
+/* ── Mapper: row → format fasilitas app ── */
+function mapFasilitasRow(row, index) {
+  const rawImage = row['Foto'] || row['foto'] || null;
+
+  return {
+    id: index + 1,
+    name: row['Nama Fasilitas'] || row['nama fasilitas'] || '',
+    description: row['Deskripsi'] || row['deskripsi'] || '',
+    category: row['Kategori'] || row['kategori'] || 'Umum',
+    gmaps: row['Maps'] || row['maps'] || null,
+    image: toDirectImageUrl(rawImage),
+  };
+}
+
 /**
  * Fetch data dari Google Sheets langsung.
  * Cek cache dulu → kalau ada & belum expired, pakai cache.
@@ -197,13 +211,13 @@ async function fetchGoogleSheet(url, cacheKey) {
 export function SiteDataProvider({ children }) {
   const [data, setData] = useState(siteConfig);
   const [loading, setLoading] = useState(() =>
-    Boolean(API_CONFIG.umkm || API_CONFIG.stats)
+    Boolean(API_CONFIG.umkm || API_CONFIG.stats || API_CONFIG.fasilitas)
   );
   const [error, setError] = useState(null);
 
   useEffect(() => {
     // Tidak ada API URL? Langsung pakai data statis.
-    if (!API_CONFIG.umkm && !API_CONFIG.stats) {
+    if (!API_CONFIG.umkm && !API_CONFIG.stats && !API_CONFIG.fasilitas) {
       setLoading(false);
       return;
     }
@@ -227,6 +241,14 @@ export function SiteDataProvider({ children }) {
           const rows = await fetchGoogleSheet(API_CONFIG.stats, 'stats');
           if (Array.isArray(rows) && rows.length > 0) {
             updates.stats = rows.map(mapStatsRow);
+          }
+        }
+
+        // Fetch Fasilitas dari Google Sheets
+        if (API_CONFIG.fasilitas) {
+          const rows = await fetchGoogleSheet(API_CONFIG.fasilitas, 'fasilitas');
+          if (Array.isArray(rows) && rows.length > 0) {
+            updates.fasilitas = rows.map(mapFasilitasRow);
           }
         }
 
