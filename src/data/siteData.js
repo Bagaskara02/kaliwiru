@@ -135,16 +135,22 @@ export const siteConfig = {
 
   /* ─── Peta ─── */
   map: {
-    wilayah: {
-      title: 'Peta Wilayah',
-      description: 'Peta lokasi dan batas wilayah Padukuhan Kaliwiru',
-      embedUrl: null, // Ganti dengan Google Maps embed URL
-      image: null, // Atau: '/images/peta-wilayah.jpg'
-    },
     administrasi: {
       title: 'Peta Administrasi',
-      description: 'Peta administrasi wilayah',
+      description: 'Peta administrasi wilayah Padukuhan Kaliwiru',
       image: '/images/peta-administrasi.jpeg',
+    },
+    saka: {
+      title: 'Peta Saka Print On Scale',
+      description: 'Peta berskala detail untuk Padukuhan Kaliwiru.',
+      embedUrl: null,
+      image: '/images/saka.jpg',
+    },
+    airTanah: {
+      title: 'Peta Kualitas Air Tanah',
+      description: 'Pemetaan kualitas air tanah Padukuhan Kaliwiru.',
+      embedUrl: null,
+      image: '/images/air-tanah.jpg',
     },
   },
 
@@ -164,4 +170,7 @@ export const siteConfig = {
 
   /* ─── Fasilitas ─── */
   fasilitas: [],
+
+  /* ─── Kebudayaan ─── */
+  kebudayaan: [],
 };

@@ -138,6 +138,25 @@ function toDirectImageUrl(url) {
   return url;
 }
 
+/* ═══════════════════════════════════════════════════════════
+   Mapper: row → format yang dipakai komponen
+   ═══════════════════════════════════════════════════════════
+   Satu sheet "Potensi Kaliwiru" berisi semua data.
+   Kolom "Section" menentukan kategori:
+   - "Fasilitas Umum"         → untuk komponen Fasilitas
+   - "Direktori UMKM"         → untuk komponen UMKMDirectory
+   - "Kebudayaan dan Kesenian" → untuk komponen Kebudayaan
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Helper pendeteksi section ── */
+function detectSection(val) {
+  const s = String(val || '').toLowerCase();
+  if (s.includes('fasilitas')) return 'fasilitas';
+  if (s.includes('umkm')) return 'umkm';
+  if (s.includes('budaya') || s.includes('seni')) return 'kebudayaan';
+  return null; // fallback
+}
+
 /* ── Mapper: row → format UMKM app ── */
 function mapUmkmRow(row, index) {
   const rawImage = row['Foto'] || row['foto'] || null;
@@ -179,6 +198,19 @@ function mapFasilitasRow(row, index) {
   };
 }
 
+/* ── Mapper: row → format kebudayaan app ── */
+function mapKebudayaanRow(row, index) {
+  const rawImage = row['Foto'] || row['foto'] || null;
+
+  return {
+    id: index + 1,
+    name: row['Nama'] || row['nama'] || row['Nama Kesenian'] || '',
+    description: row['Deskripsi'] || row['deskripsi'] || '',
+    category: row['Kategori'] || row['kategori'] || 'Lainnya',
+    gmaps: row['Maps'] || row['maps'] || null,
+    image: toDirectImageUrl(rawImage),
+  };
+}
 /**
  * Fetch data dari Google Sheets langsung.
  * Cek cache dulu → kalau ada & belum expired, pakai cache.
@@ -211,13 +243,13 @@ async function fetchGoogleSheet(url, cacheKey) {
 export function SiteDataProvider({ children }) {
   const [data, setData] = useState(siteConfig);
   const [loading, setLoading] = useState(() =>
-    Boolean(API_CONFIG.umkm || API_CONFIG.stats || API_CONFIG.fasilitas)
+    Boolean(API_CONFIG.potensi)
   );
   const [error, setError] = useState(null);
 
   useEffect(() => {
     // Tidak ada API URL? Langsung pakai data statis.
-    if (!API_CONFIG.umkm && !API_CONFIG.stats && !API_CONFIG.fasilitas) {
+    if (!API_CONFIG.potensi) {
       setLoading(false);
       return;
     }
@@ -228,27 +260,45 @@ export function SiteDataProvider({ children }) {
       try {
         const updates = {};
 
-        // Fetch UMKM dari Google Sheets
-        if (API_CONFIG.umkm) {
-          const rows = await fetchGoogleSheet(API_CONFIG.umkm, 'umkm');
+        // ── Fetch Potensi Kaliwiru (gabungan Fasilitas + UMKM + Kebudayaan) ──
+        if (API_CONFIG.potensi) {
+          const rows = await fetchGoogleSheet(API_CONFIG.potensi, 'potensi');
           if (Array.isArray(rows) && rows.length > 0) {
-            updates.umkm = rows.map(mapUmkmRow);
-          }
-        }
+            // Pisahkan berdasarkan kolom "Section"
+            const fasilitasRows = [];
+            const umkmRows = [];
+            const kebudayaanRows = [];
 
-        // Fetch Statistik dari Google Sheets
-        if (API_CONFIG.stats) {
-          const rows = await fetchGoogleSheet(API_CONFIG.stats, 'stats');
-          if (Array.isArray(rows) && rows.length > 0) {
-            updates.stats = rows.map(mapStatsRow);
-          }
-        }
+            rows.forEach((row) => {
+              const section = detectSection(row['Section'] || row['section']);
+              switch (section) {
+                case 'fasilitas':
+                  fasilitasRows.push(row);
+                  break;
+                case 'umkm':
+                  umkmRows.push(row);
+                  break;
+                case 'kebudayaan':
+                  kebudayaanRows.push(row);
+                  break;
+                default:
+                  // Jika kosong/tidak match, bisa default ke UMKM jika ada kolom QRIS (opsional)
+                  if (row['QRIS'] !== undefined) {
+                    umkmRows.push(row);
+                  }
+                  break;
+              }
+            });
 
-        // Fetch Fasilitas dari Google Sheets
-        if (API_CONFIG.fasilitas) {
-          const rows = await fetchGoogleSheet(API_CONFIG.fasilitas, 'fasilitas');
-          if (Array.isArray(rows) && rows.length > 0) {
-            updates.fasilitas = rows.map(mapFasilitasRow);
+            if (fasilitasRows.length > 0) {
+              updates.fasilitas = fasilitasRows.map(mapFasilitasRow);
+            }
+            if (umkmRows.length > 0) {
+              updates.umkm = umkmRows.map(mapUmkmRow);
+            }
+            if (kebudayaanRows.length > 0) {
+              updates.kebudayaan = kebudayaanRows.map(mapKebudayaanRow);
+            }
           }
         }
 

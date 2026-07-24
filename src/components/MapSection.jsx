@@ -85,7 +85,7 @@ function MapCard({ data, onOpenImage }) {
         {hasEmbed ? (
           <iframe
             src={data.embedUrl}
-            className="w-full h-[320px] md:h-[400px]"
+            className="w-full h-[400px] md:h-[600px]"
             style={{ border: 0 }}
             allowFullScreen
             loading="lazy"
@@ -160,8 +160,16 @@ export default function MapSection() {
           </div>
 
           {/* Peta Administrasi */}
-          <div className="max-w-4xl mx-auto">
-            <MapCard data={map.administrasi} onOpenImage={setModalData} />
+          {map.administrasi && (
+            <div className="max-w-4xl mx-auto mb-12">
+              <MapCard data={map.administrasi} onOpenImage={setModalData} />
+            </div>
+          )}
+
+          {/* Peta Lainnya */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {map.saka && <MapCard data={map.saka} onOpenImage={setModalData} />}
+            {map.airTanah && <MapCard data={map.airTanah} onOpenImage={setModalData} />}
           </div>
         </div>
       </section>

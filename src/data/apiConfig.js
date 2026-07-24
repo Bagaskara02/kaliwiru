@@ -30,9 +30,10 @@ const SPREADSHEET_ID = '1E7SBfDyWBZ6RXDo7rESduNuWayhB2NFKHGSoEN8qkSM';
 // │  Sesuaikan dengan nama tab yang ada di spreadsheet Anda.  │
 // │  Untuk dusun lain, cukup ganti nama sheet-nya saja.       │
 // └───────────────────────────────────────────────────────────┘
-const SHEET_UMKM = 'UMKM Kaliwiru';
-const SHEET_STATS = 'Statistik Kaliwiru';
-const SHEET_FASILITAS = 'Prasarana Kaliwiru';
+// ┌───────────────────────────────────────────────────────────┐
+// │  HANYA 1 TAB SHEET: "Potensi Kaliwiru"                    │
+// └───────────────────────────────────────────────────────────┘
+const SHEET_POTENSI = 'Potensi Kaliwiru';
 
 /**
  * Membangun URL Google Sheets gviz/tq untuk mengambil data
@@ -47,19 +48,8 @@ const isConfigured = SPREADSHEET_ID !== 'PASTE_SPREADSHEET_ID_DISINI';
 
 export const API_CONFIG = {
   /**
-   * URL untuk data UMKM (Tab: UMKM Kaliwiru).
+   * Single URL untuk data Potensi Kaliwiru (Fasilitas + UMKM + Kebudayaan).
    * Otomatis null jika Spreadsheet ID belum di-set → pakai data statis.
    */
-  umkm: isConfigured ? buildGoogleSheetsUrl(SHEET_UMKM) : null,
-
-  /**
-   * URL untuk data statistik demografi (Tab: Statistik Kaliwiru).
-   * Otomatis null jika Spreadsheet ID belum di-set → pakai data statis.
-   */
-  stats: isConfigured ? buildGoogleSheetsUrl(SHEET_STATS) : null,
-
-  /**
-   * URL untuk data fasilitas umum (Tab: Prasarana Kaliwiru).
-   */
-  fasilitas: isConfigured ? buildGoogleSheetsUrl(SHEET_FASILITAS) : null,
+  potensi: isConfigured ? buildGoogleSheetsUrl(SHEET_POTENSI) : null,
 };
