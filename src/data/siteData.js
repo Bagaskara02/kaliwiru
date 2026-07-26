@@ -141,8 +141,8 @@ export const siteConfig = {
       image: '/images/peta-administrasi.jpeg',
     },
     saka: {
-      title: 'Peta Saka Print On Scale',
-      description: 'Peta berskala detail untuk Padukuhan Kaliwiru.',
+      title: 'Peta Persebaran Potensi Ekonomi & Wisata Lokal',
+      description: 'Peta persebaran potensi ekonomi dan wisata lokal Padukuhan Kaliwiru.',
       embedUrl: null,
       image: '/images/saka.jpg',
     },

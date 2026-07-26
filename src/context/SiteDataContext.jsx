@@ -190,10 +190,10 @@ function mapFasilitasRow(row, index) {
 
   return {
     id: index + 1,
-    name: row['Nama Fasilitas'] || row['nama fasilitas'] || '',
+    name: row['Nama'] || row['nama'] || row['Nama Fasilitas'] || row['nama fasilitas'] || '',
     description: row['Deskripsi'] || row['deskripsi'] || '',
     category: row['Kategori'] || row['kategori'] || 'Umum',
-    gmaps: row['Maps'] || row['maps'] || null,
+    gmaps: row['Gmaps'] || row['gmaps'] || row['Maps'] || row['maps'] || null,
     image: toDirectImageUrl(rawImage),
   };
 }
@@ -207,7 +207,7 @@ function mapKebudayaanRow(row, index) {
     name: row['Nama'] || row['nama'] || row['Nama Kesenian'] || '',
     description: row['Deskripsi'] || row['deskripsi'] || '',
     category: row['Kategori'] || row['kategori'] || 'Lainnya',
-    gmaps: row['Maps'] || row['maps'] || null,
+    gmaps: row['Gmaps'] || row['gmaps'] || row['Maps'] || row['maps'] || null,
     image: toDirectImageUrl(rawImage),
   };
 }
