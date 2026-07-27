@@ -152,6 +152,12 @@ export const siteConfig = {
       embedUrl: null,
       image: '/images/air-tanah.jpg',
     },
+    kesehatan: {
+      title: 'Peta Profil Kesehatan',
+      description: 'Peta profil kesehatan Padukuhan Kaliwiru.',
+      embedUrl: null,
+      image: '/images/Peta Profil Kesehatan.jpeg',
+    },
   },
 
   /* ─── Tentang Kami ─── */

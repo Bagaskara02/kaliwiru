@@ -167,9 +167,10 @@ export default function MapSection() {
           )}
 
           {/* Peta Lainnya */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {map.saka && <MapCard data={map.saka} onOpenImage={setModalData} />}
             {map.airTanah && <MapCard data={map.airTanah} onOpenImage={setModalData} />}
+            {map.kesehatan && <MapCard data={map.kesehatan} onOpenImage={setModalData} />}
           </div>
         </div>
       </section>
