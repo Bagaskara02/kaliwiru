@@ -12,10 +12,10 @@ const categoryIcons = {
 
 const categoryColors = {
   tarian: 'from-rose-500 to-pink-700',
-  musik: 'from-indigo-500 to-violet-700',
+  musik: 'from-pink-600 to-rose-700',
   tradisi: 'from-amber-500 to-orange-700',
   kerajinan: 'from-teal-500 to-emerald-700',
-  budaya: 'from-purple-500 to-purple-700',
+  budaya: 'from-rose-500 to-pink-700',
 };
 
 function getCategoryKey(category) {
@@ -107,7 +107,7 @@ function KebudayaanModal({ item, onClose }) {
               href={item.gmaps}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-3 border border-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-purple-50 hover:text-purple-700 hover:border-purple-200 transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-3 border border-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-leaf-50 hover:text-leaf-700 hover:border-leaf-200 transition-colors"
             >
               <MapPinIcon />
               Lihat di Google Maps
@@ -135,10 +135,10 @@ export default function Kebudayaan() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section header */}
           <div className="text-center mb-12">
-            <p className="text-xs text-purple-600 font-medium uppercase tracking-widest mb-2">
+            <p className="text-xs text-leaf-600 font-medium uppercase tracking-widest mb-2">
               Warisan Budaya
             </p>
-            <h2 className="text-2xl md:text-[1.7rem] font-semibold text-gray-900 mb-2">
+            <h2 className="text-2xl md:text-[1.7rem] font-semibold text-leaf-900 mb-2">
               Kebudayaan & Kesenian
             </h2>
             <p className="text-gray-400 max-w-md mx-auto text-sm leading-relaxed">
@@ -199,7 +199,7 @@ export default function Kebudayaan() {
                           <button
                             type="button"
                             onClick={(e) => { e.stopPropagation(); setSelected(item); }}
-                            className="inline-flex items-center gap-1.5 flex-1 justify-center px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition-colors"
+                            className="inline-flex items-center gap-1.5 flex-1 justify-center px-4 py-2 bg-leaf-600 text-white text-sm font-medium rounded-lg hover:bg-leaf-700 transition-colors"
                           >
                             Lihat Detail
                           </button>
@@ -209,7 +209,7 @@ export default function Kebudayaan() {
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={(e) => e.stopPropagation()}
-                              className="inline-flex items-center justify-center w-9 h-9 border border-gray-200 text-gray-500 rounded-lg hover:bg-purple-50 hover:text-purple-700 hover:border-purple-200 transition-colors"
+                              className="inline-flex items-center justify-center w-9 h-9 border border-gray-200 text-gray-500 rounded-lg hover:bg-leaf-50 hover:text-leaf-700 hover:border-leaf-200 transition-colors"
                               title="Lihat di Google Maps"
                             >
                               <MapPinIcon />

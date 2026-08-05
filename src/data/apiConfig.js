@@ -34,6 +34,7 @@ const SPREADSHEET_ID = '1E7SBfDyWBZ6RXDo7rESduNuWayhB2NFKHGSoEN8qkSM';
 // │  HANYA 1 TAB SHEET: "Potensi Kaliwiru"                    │
 // └───────────────────────────────────────────────────────────┘
 const SHEET_POTENSI = 'Potensi Kaliwiru';
+const SHEET_STATS = 'Statistik Kaliwiru';
 
 /**
  * Membangun URL Google Sheets gviz/tq untuk mengambil data
@@ -49,7 +50,11 @@ const isConfigured = SPREADSHEET_ID !== 'PASTE_SPREADSHEET_ID_DISINI';
 export const API_CONFIG = {
   /**
    * Single URL untuk data Potensi Kaliwiru (Fasilitas + UMKM + Kebudayaan).
-   * Otomatis null jika Spreadsheet ID belum di-set → pakai data statis.
    */
   potensi: isConfigured ? buildGoogleSheetsUrl(SHEET_POTENSI) : null,
+
+  /**
+   * URL untuk data Statistik Kaliwiru (Data Kependudukan & RT).
+   */
+  stats: isConfigured ? buildGoogleSheetsUrl(SHEET_STATS) : null,
 };

@@ -1,6 +1,7 @@
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
+import Stats from './components/Stats';
 import Fasilitas from './components/Fasilitas';
 import UMKMDirectory from './components/UMKMDirectory';
 import Kebudayaan from './components/Kebudayaan';
@@ -14,6 +15,7 @@ function App() {
       <main>
         <Hero />
         <About />
+        <Stats />
         <Fasilitas />
         <UMKMDirectory />
         <Kebudayaan />

@@ -29,29 +29,31 @@ export const siteConfig = {
   },
 
   /* ─── Statistik Demografi ─── */
-  stats: [
-    {
-      id: 'kk',
-      label: 'Jumlah KK',
-      value: 245,
-      description: 'Kepala Keluarga terdaftar',
-      icon: 'home',
-    },
-    {
-      id: 'male',
-      label: 'Laki-laki',
-      value: 520,
-      description: 'Penduduk laki-laki',
-      icon: 'male',
-    },
-    {
-      id: 'female',
-      label: 'Perempuan',
-      value: 498,
-      description: 'Penduduk perempuan',
-      icon: 'female',
-    },
-  ],
+  stats: {
+    totalPenduduk: 487,
+    lakiLaki: 252,
+    perempuan: 235,
+    jumlahKK: 166,
+    jumlahRumah: 140,
+    rt: [
+      {
+        rt: 'RT 17',
+        kk: 79,
+        rumah: 70,
+        lakiLaki: 123,
+        perempuan: 122,
+        total: 245,
+      },
+      {
+        rt: 'RT 18',
+        kk: 87,
+        rumah: 70,
+        lakiLaki: 129,
+        perempuan: 113,
+        total: 242,
+      },
+    ],
+  },
 
   /* ─── Direktori UMKM ─── */
   umkm: [
@@ -164,12 +166,16 @@ export const siteConfig = {
   about: {
     title: 'Profil Padukuhan',
     subtitle: 'Sejarah, Visi & Misi Padukuhan Kaliwiru',
-    sejarah: 'Padukuhan Kaliwiru merupakan salah satu padukuhan di Desa Tuksono, Kecamatan Sentolo, Kabupaten Kulon Progo yang dikenal sebagai sentra industri tahu. Sebagian besar masyarakat menggantungkan mata pencaharian pada sektor pengolahan tahu, sehingga menjadikan Kaliwiru sebagai salah satu penghasil tahu terbesar di wilayah tersebut. Selain itu, padukuhan ini juga memiliki berbagai UMKM yang terus berkembang serta didukung semangat gotong royong masyarakat dalam menjaga potensi ekonomi lokal.',
-    visi: 'Menjadi Padukuhan yang mandiri melalui pengembangan industri tahu, UMKM, dan pelestarian budaya lokal.',
+    sejarah: 'Padukuhan Kaliwiru merupakan salah satu wilayah yang masyarakatnya terus menjaga identitas budaya dan tradisi. Wilayah ini memiliki potensi pertanian, industri lokal dan UMKM yang terus berkembang, serta berkomitmen untuk melestarikan nilai-nilai gotong royong.',
+    visi: 'Bersama masyarakat kita wujudkan Desa Tuksono yang bersih, jujur, amanah demi tercapainya masyarakat yang religius, adil, makmur dan berkepribadian yang luhur.',
     misi: [
-      'Mengembangkan potensi industri tahu sebagai ikon ekonomi Padukuhan Kaliwiru.',
-      'Mendukung pertumbuhan UMKM melalui peningkatan kualitas produk dan pemasaran.',
-      'Melestarikan budaya, nilai gotong royong, dan kearifan lokal sebagai identitas masyarakat.'
+      'Memperkokoh persatuan dan kerukunan antar warga Desa Tuksono tanpa memandang agama, status sosial, golongan dan mengusahakan peningkatan kesejahteraan kegiatan keagamaan.',
+      'Memberdayakan semua elemen masyarakat dalam proses pembangunan mulai perencanaan, pelaksanaan, dan pengawasan sebagai upaya mewujudkan pembangunan yang berkualitas, transparan dan dapat dipertanggungjawabkan.',
+      'Memaksimalkan kinerja perangkat desa sesuai tugas pokok dan fungsi demi tercapainya pelayanan kepada masyarakat yang prima.',
+      'Melestarikan adat tradisi, seni, dan budaya yang sudah ada di masyarakat untuk mewujudkan jati diri Tuksono sebagai Desa Budaya.',
+      'Membina, mengembangkan, dan selalu koordinasi untuk memfungsikan LPMD, PKK, Karang Taruna, FKPM, dan lembaga kemasyarakatan lainnya demi tercapainya suasana yang aman, tentram, damai, dan nyaman di kalangan masyarakat.',
+      'Membina dan memfungsikan generasi muda melalui karang taruna sebagai tulang punggung desa yang memiliki budi pekerti yang luhur dan mandiri dalam menyikapi Tuksono sebagai kawasan industri sehingga warga Tuksono bisa menjadi pelaku bukan hanya jadi penonton.',
+      'Mencermati ulang bantuan bagi masyarakat kurang mampu, kaum difabel dan lansia agar tidak salah sasaran.'
     ],
     image: '/images/iconKaliwiru.jpeg',
   },

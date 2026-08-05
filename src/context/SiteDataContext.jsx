@@ -173,15 +173,155 @@ function mapUmkmRow(row, index) {
   };
 }
 
-/* ── Mapper: row → format statistik app ── */
-function mapStatsRow(row) {
-  return {
-    id: String(row['ID'] || row['id'] || row['Label'] || '').toLowerCase(),
-    label: row['Label'] || row['label'] || '',
-    value: parseInt(row['Nilai'] || row['nilai'] || 0, 10),
-    description: row['Deskripsi'] || row['deskripsi'] || '',
-    icon: row['Icon'] || row['icon'] || 'home',
-  };
+/* ── Helper angka aman ── */
+function parseNum(val) {
+  if (typeof val === 'number') return val;
+  if (!val) return 0;
+  const clean = String(val).replace(/[^0-9]/g, '');
+  return parseInt(clean, 10) || 0;
+}
+
+/* ── Mapper: rows → format statistik demografi app (Total & per RT) ── */
+function mapStatsRows(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return null;
+
+  const rtList = [];
+  let sumKK = 0;
+  let sumRumah = 0;
+  let sumLaki = 0;
+  let sumPerempuan = 0;
+  let sumTotal = 0;
+
+  // Cek apakah ada format per RT
+  const hasRT = rows.some((r) => {
+    const keys = Object.keys(r);
+    return (
+      keys.some((k) => /rt|wilayah/i.test(k)) ||
+      /rt\s*\d+/i.test(String(r['Label'] || r['Nama'] || r['RT'] || ''))
+    );
+  });
+
+  if (hasRT) {
+    rows.forEach((row, idx) => {
+      const rtName =
+        row['RT'] ||
+        row['rt'] ||
+        row['Nama RT'] ||
+        row['Wilayah'] ||
+        row['wilayah'] ||
+        row['Nama'] ||
+        row['nama'] ||
+        row['Label'] ||
+        `RT ${idx + 1}`;
+
+      const kk = parseNum(
+        row['Jumlah KK'] ||
+          row['KK'] ||
+          row['kk'] ||
+          row['Kepala Keluarga'] ||
+          row['jumlah kk']
+      );
+      const rumah = parseNum(
+        row['Jumlah Rumah'] ||
+          row['Rumah'] ||
+          row['rumah'] ||
+          row['jumlah rumah']
+      );
+      const laki = parseNum(
+        row['Laki Laki'] ||
+          row['Laki-laki'] ||
+          row['Laki-Laki'] ||
+          row['laki-laki'] ||
+          row['Pria'] ||
+          row['pria'] ||
+          row['Laki']
+      );
+      const perempuan = parseNum(
+        row['Perempuan'] ||
+          row['perempuan'] ||
+          row['Wanita'] ||
+          row['wanita']
+      );
+      
+      // Total selalu dihitung otomatis dari laki-laki + perempuan
+      const total = laki + perempuan;
+
+      // Hindari baris ringkasan / total eksplisit masuk ke list RT agar tidak dihitung ganda
+      if (
+        /total|jumlah|rekap|padukuhan/i.test(String(rtName)) &&
+        !/rt\s*\d+/i.test(String(rtName))
+      ) {
+        if (laki) sumLaki = laki;
+        if (perempuan) sumPerempuan = perempuan;
+        if (kk) sumKK = kk;
+        if (rumah) sumRumah = rumah;
+        return;
+      }
+
+      // Validasi baris: harus memiliki minimal salah satu data
+      if (kk > 0 || rumah > 0 || laki > 0 || perempuan > 0) {
+        sumKK += kk;
+        sumRumah += rumah;
+        sumLaki += laki;
+        sumPerempuan += perempuan;
+        sumTotal += total;
+
+        rtList.push({
+          id: idx + 1,
+          rt: String(rtName).trim(),
+          kk,
+          rumah,
+          lakiLaki: laki,
+          perempuan,
+          total, // dihitung otomatis: laki + perempuan
+        });
+      }
+    });
+
+    if (rtList.length > 0) {
+      return {
+        totalPenduduk: sumLaki + sumPerempuan, // total otomatis dari semua laki-laki + perempuan
+        lakiLaki: sumLaki,
+        perempuan: sumPerempuan,
+        jumlahKK: sumKK,
+        jumlahRumah: sumRumah,
+        rt: rtList,
+      };
+    }
+  }
+
+  // Fallback: format Key-Value (Label & Nilai)
+  let kkVal = 0,
+    rumahVal = 0,
+    lakiVal = 0,
+    perempuanVal = 0,
+    totalVal = 0;
+
+  rows.forEach((r) => {
+    const label = String(
+      r['Label'] || r['label'] || r['Nama'] || r['Keterangan'] || ''
+    ).toLowerCase();
+    const val = parseNum(r['Nilai'] || r['nilai'] || r['Value'] || r['Jumlah'] || 0);
+
+    if (label.includes('kk') || label.includes('kepala keluarga')) kkVal = val;
+    else if (label.includes('rumah')) rumahVal = val;
+    else if (label.includes('laki') || label.includes('pria')) lakiVal = val;
+    else if (label.includes('perempuan') || label.includes('wanita')) perempuanVal = val;
+    else if (label.includes('total') || label.includes('penduduk')) totalVal = val;
+  });
+
+  if (kkVal || rumahVal || lakiVal || perempuanVal || totalVal) {
+    return {
+      totalPenduduk: totalVal || (lakiVal + perempuanVal),
+      lakiLaki: lakiVal,
+      perempuan: perempuanVal,
+      jumlahKK: kkVal,
+      jumlahRumah: rumahVal,
+      rt: [],
+    };
+  }
+
+  return null;
 }
 
 /* ── Mapper: row → format fasilitas app ── */
@@ -211,6 +351,7 @@ function mapKebudayaanRow(row, index) {
     image: toDirectImageUrl(rawImage),
   };
 }
+
 /**
  * Fetch data dari Google Sheets langsung.
  * Cek cache dulu → kalau ada & belum expired, pakai cache.
@@ -243,13 +384,13 @@ async function fetchGoogleSheet(url, cacheKey) {
 export function SiteDataProvider({ children }) {
   const [data, setData] = useState(siteConfig);
   const [loading, setLoading] = useState(() =>
-    Boolean(API_CONFIG.potensi)
+    Boolean(API_CONFIG.potensi || API_CONFIG.stats)
   );
   const [error, setError] = useState(null);
 
   useEffect(() => {
     // Tidak ada API URL? Langsung pakai data statis.
-    if (!API_CONFIG.potensi) {
+    if (!API_CONFIG.potensi && !API_CONFIG.stats) {
       setLoading(false);
       return;
     }
@@ -262,43 +403,67 @@ export function SiteDataProvider({ children }) {
 
         // ── Fetch Potensi Kaliwiru (gabungan Fasilitas + UMKM + Kebudayaan) ──
         if (API_CONFIG.potensi) {
-          const rows = await fetchGoogleSheet(API_CONFIG.potensi, 'potensi');
-          if (Array.isArray(rows) && rows.length > 0) {
-            // Pisahkan berdasarkan kolom "Section"
-            const fasilitasRows = [];
-            const umkmRows = [];
-            const kebudayaanRows = [];
+          try {
+            const rows = await fetchGoogleSheet(API_CONFIG.potensi, 'potensi');
+            if (Array.isArray(rows) && rows.length > 0) {
+              // Pisahkan berdasarkan kolom "Section"
+              const fasilitasRows = [];
+              const umkmRows = [];
+              const kebudayaanRows = [];
 
-            rows.forEach((row) => {
-              const section = detectSection(row['Section'] || row['section']);
-              switch (section) {
-                case 'fasilitas':
-                  fasilitasRows.push(row);
-                  break;
-                case 'umkm':
-                  umkmRows.push(row);
-                  break;
-                case 'kebudayaan':
-                  kebudayaanRows.push(row);
-                  break;
-                default:
-                  // Jika kosong/tidak match, bisa default ke UMKM jika ada kolom QRIS (opsional)
-                  if (row['QRIS'] !== undefined) {
+              rows.forEach((row) => {
+                const section = detectSection(row['Section'] || row['section']);
+                switch (section) {
+                  case 'fasilitas':
+                    fasilitasRows.push(row);
+                    break;
+                  case 'umkm':
                     umkmRows.push(row);
-                  }
-                  break;
-              }
-            });
+                    break;
+                  case 'kebudayaan':
+                    kebudayaanRows.push(row);
+                    break;
+                  default:
+                    // Jika kosong/tidak match, bisa default ke UMKM jika ada kolom QRIS
+                    if (row['QRIS'] !== undefined) {
+                      umkmRows.push(row);
+                    }
+                    break;
+                }
+              });
 
-            if (fasilitasRows.length > 0) {
-              updates.fasilitas = fasilitasRows.map(mapFasilitasRow);
+              if (fasilitasRows.length > 0) {
+                updates.fasilitas = fasilitasRows.map(mapFasilitasRow);
+              }
+              if (umkmRows.length > 0) {
+                updates.umkm = umkmRows.map(mapUmkmRow);
+              }
+              if (kebudayaanRows.length > 0) {
+                updates.kebudayaan = kebudayaanRows.map(mapKebudayaanRow);
+              }
             }
-            if (umkmRows.length > 0) {
-              updates.umkm = umkmRows.map(mapUmkmRow);
+          } catch (err) {
+            console.warn('⚠️ Gagal memuat Potensi dari Google Sheets:', err);
+          }
+        }
+
+        // ── Fetch Statistik Kaliwiru dari Google Sheets ──
+        if (API_CONFIG.stats) {
+          try {
+            const statsRows = await fetchGoogleSheet(API_CONFIG.stats, 'stats');
+            if (Array.isArray(statsRows) && statsRows.length > 0) {
+              const parsedStats = mapStatsRows(statsRows);
+              if (
+                parsedStats &&
+                (parsedStats.totalPenduduk > 0 ||
+                  parsedStats.jumlahKK > 0 ||
+                  (parsedStats.rt && parsedStats.rt.length > 0))
+              ) {
+                updates.stats = parsedStats;
+              }
             }
-            if (kebudayaanRows.length > 0) {
-              updates.kebudayaan = kebudayaanRows.map(mapKebudayaanRow);
-            }
+          } catch (err) {
+            console.warn('⚠️ Gagal memuat Statistik dari Google Sheets:', err);
           }
         }
 

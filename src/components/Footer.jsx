@@ -3,6 +3,7 @@ import { useSiteData } from '../context/SiteDataContext';
 const footerNav = [
   { label: 'Beranda', href: '#beranda' },
   { label: 'Tentang', href: '#tentang' },
+  { label: 'Statistik', href: '#statistik' },
   { label: 'Fasilitas', href: '#fasilitas' },
   { label: 'UMKM', href: '#umkm' },
   { label: 'Kebudayaan', href: '#kebudayaan' },
